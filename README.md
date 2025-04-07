@@ -95,6 +95,9 @@ where `/utils/init.sh` is the script you must run to initialize the task environ
 If you want to run the benchmark using the [OpenHands](https://github.com/all-hands-ai/openhands) platform, it's as simple as:
 
 ```bash
+# eval harness needs root privilege to be able to copy trajectories
+# to agent's working directory mounted to the container
+sudo su
 cd evaluation
 # set up agent and environment LLM configs in config.toml, omitted
 bash run_eval.sh \
