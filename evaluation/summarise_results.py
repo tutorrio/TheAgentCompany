@@ -292,9 +292,10 @@ def main():
         print("|---------|--------|")
         for task_nature in ['sde', 'pm', 'ds', 'admin', 'hr', 'finance', 'other']:
             num_of_tasks = sum(1 for _, _, _, _, _, nature_category in detailed_results if nature_category == task_nature)
-            task_nature_score = sum(score for _, _, _, score, _, nature_category in detailed_results if nature_category == task_nature) / num_of_tasks
+            task_nature_score = 0 if num_of_tasks == 0 else sum(score for _, _, _, score, _, nature_category in detailed_results if nature_category == task_nature) / num_of_tasks
             perfect_completions = sum(1 for _, _, _, _, is_perfect, nature_category in detailed_results if nature_category == task_nature and is_perfect)
-            print(f"| Perfect Completions for {task_nature} | {perfect_completions}/{num_of_tasks} ({perfect_completions/num_of_tasks*100:.2f}%) |")
+            perfect_completions_ratio = 0 if num_of_tasks == 0 else perfect_completions / num_of_tasks
+            print(f"| Perfect Completions for {task_nature} | {perfect_completions} ({perfect_completions_ratio*100:.2f}%) |")
             print(f"| Average Score for {task_nature} | {task_nature_score*100:.2f}% |")
 
         # compute avg score per service category
@@ -302,10 +303,11 @@ def main():
         print("| Metric | Value |")
         print("|---------|--------|")
         for service_category in ['gitlab', 'plane', 'rocketchat', 'owncloud']:
-            num_of_tasks = len(service_to_tasks[service_category])
-            service_category_score = sum(score for task_name, _, _, score, _, _ in detailed_results if task_name in service_to_tasks[service_category]) / num_of_tasks
-            perfect_completions = sum(1 for task_name, _, _, _, is_perfect, _ in detailed_results if task_name in service_to_tasks[service_category] and is_perfect)
-            print(f"| Perfect Completions for {service_category} | {perfect_completions}/{num_of_tasks} ({perfect_completions/num_of_tasks*100:.2f}%) |")
+            num_of_tasks = len(service_to_tasks.get(service_category, []))
+            service_category_score = 0 if num_of_tasks == 0 else sum(score for task_name, _, _, score, _, _ in detailed_results if task_name in service_to_tasks[service_category]) / num_of_tasks
+            perfect_completions = sum(1 for task_name, _, _, _, is_perfect, _ in detailed_results if task_name in service_to_tasks.get(service_category, []) and is_perfect)
+            perfect_completions_ratio = 0 if num_of_tasks == 0 else perfect_completions / num_of_tasks
+            print(f"| Perfect Completions for {service_category} | {perfect_completions} ({perfect_completions_ratio*100:.2f}%) |")
             print(f"| Average Score for {service_category} | {service_category_score*100:.2f}% |")
 
 if __name__ == "__main__":
