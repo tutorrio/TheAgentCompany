@@ -86,7 +86,7 @@ def load_dependencies(runtime: Runtime) -> List[str]:
 def init_task_env(runtime: Runtime, hostname: str, env_llm_config: LLMConfig):
     command = (
         f"SERVER_HOSTNAME={hostname} "
-        f"LITELLM_API_KEY={env_llm_config.api_key} "
+        f"LITELLM_API_KEY={env_llm_config.api_key.get_secret_value() if env_llm_config.api_key else None} "
         f"LITELLM_BASE_URL={env_llm_config.base_url} "
         f"LITELLM_MODEL={env_llm_config.model} "
         "bash /utils/init.sh"
@@ -162,7 +162,7 @@ def run_solver(runtime: Runtime, task_name: str, config: AppConfig, dependencies
 
 def run_evaluator(runtime: Runtime, env_llm_config: LLMConfig, trajectory_path: str, result_path: str):
     command = (
-        f"LITELLM_API_KEY={env_llm_config.api_key} "
+        f"LITELLM_API_KEY={env_llm_config.api_key.get_secret_value() if env_llm_config.api_key else None} "
         f"LITELLM_BASE_URL={env_llm_config.base_url} "
         f"LITELLM_MODEL={env_llm_config.model} "
         f"DECRYPTION_KEY='theagentcompany is all you need' "  # Hardcoded Key
