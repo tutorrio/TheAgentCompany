@@ -32,6 +32,11 @@ def calculate_cost(model: str, prompt_tokens: int, completion_tokens: int) -> fl
         if prompt_tokens > 128000:
             cost *= 2
         return cost
+    elif "gemini-2.5-pro-preview-05-06" in model.lower():
+        # https://ai.google.dev/gemini-api/docs/pricing#gemini-2.5-pro-preview, accessed 05/08/2025
+        cost = (0.00000125 if prompt_tokens <= 200000 else 0.0000025) * prompt_tokens
+        cost += (0.00001 if prompt_tokens <= 200000 else 0.000015) * completion_tokens
+        return cost
     elif "qwen2-72b" in model.lower():
         # assuming hosted on Together
         # https://www.together.ai/pricing, accessed 12/11/2024
