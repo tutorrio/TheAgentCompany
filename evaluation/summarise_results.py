@@ -13,6 +13,9 @@ def calculate_cost(model: str, prompt_tokens: int, completion_tokens: int) -> fl
     if "claude-3-5-sonnet" in model.lower():
         # https://www.anthropic.com/pricing#anthropic-api, accessed 12/11/2024
         return 0.000003 * prompt_tokens + 0.000015 * completion_tokens
+    elif 'claude-3-7-sonnet' in model.lower():
+        # https://www.anthropic.com/pricing#anthropic-api, accessed 05/08/2025
+        return 0.000003 * prompt_tokens + 0.000015 * completion_tokens
     elif "gpt-4o" in model.lower():
         # https://openai.com/api/pricing/, accessed 12/11/2024
         return 0.0000025 * prompt_tokens + 0.00001 * completion_tokens
