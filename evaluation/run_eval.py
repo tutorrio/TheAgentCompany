@@ -17,6 +17,7 @@ from openhands.core.config import (
     get_parser,
 )
 from openhands.core.config.agent_config import AgentConfig
+from openhands.memory.condenser.impl import NoOpCondenser
 from openhands.core.logger import openhands_logger as logger
 from openhands.core.main import create_runtime, run_controller
 from openhands.events.action import CmdRunAction, MessageAction
@@ -56,6 +57,8 @@ def get_config(
     agent_config = AgentConfig(
         enable_prompt_extensions=False,
         enable_history_truncation=False,
+        enable_som_visual_browsing=False,
+        condenser = NoOpCondenser(),
     )
     config.set_agent_config(agent_config)
     return config
@@ -152,7 +155,7 @@ def run_solver(runtime: Runtime, task_name: str, config: AppConfig, dependencies
     if save_final_state:
         os.makedirs(state_dir, exist_ok=True)
         with open(os.path.join(state_dir, f'state_{task_name}.json'), 'w') as file:
-            json.dump(str(state), file)
+            json.dump(str(state), file, indent=4)
 
     return state
 
