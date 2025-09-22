@@ -91,7 +91,8 @@ services:
       - "${BIND_IP:-0.0.0.0}:${HOST_PORT:-3000}:${PORT:-3000}"
 
   mongodb:
-    image: docker.io/bitnami/mongodb:${MONGODB_VERSION:-5.0}
+    #image: docker.io/bitnami/mongodb:${MONGODB_VERSION:-5.0}
+    image: bitnami/mongodb:5.0.19
     restart: always
     container_name: rocketchat-mongodb
     volumes:

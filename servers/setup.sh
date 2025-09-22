@@ -20,7 +20,7 @@ docker compose version
 
 ################## pull docker image ################## 
 echo "Starting Pull Image..."
-docker pull ghcr.io/theagentcompany/servers-api-server:1.0.0
+#docker pull ghcr.io/theagentcompany/servers-api-server:1.0.0
 docker pull ghcr.io/theagentcompany/servers-rocketchat-npc-data-population:1.0.0
 docker pull ghcr.io/theagentcompany/servers-owncloud:1.0.0
 docker pull ghcr.io/theagentcompany/servers-gitlab:1.0.0
@@ -48,7 +48,8 @@ docker run -d \
     --network host \
     --restart always \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    ghcr.io/theagentcompany/servers-api-server:1.0.0
+    servers-api-server-image:latest
+    #ghcr.io/theagentcompany/servers-api-server:1.0.0
 
 # wait for service launching
 echo "Waiting for service launching..."
