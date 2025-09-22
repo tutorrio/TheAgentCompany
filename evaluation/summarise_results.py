@@ -58,6 +58,8 @@ def calculate_cost(model: str, prompt_tokens: int, completion_tokens: int) -> fl
         # assuming hosted on Amazon Bedrock
         # https://aws.amazon.com/bedrock/pricing/, accessed 12/11/2024
         return 0.0000008 * prompt_tokens + 0.0000032 * completion_tokens
+    elif "mistralai/devstral-small-2507" in model.lower():
+        return 0.0000001 * prompt_tokens + 0.0000001 * completion_tokens
     else:
         raise ValueError(f"Unknown model: {model}")
 
